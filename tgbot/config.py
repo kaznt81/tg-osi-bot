@@ -1,3 +1,5 @@
+import oracledb
+
 from dataclasses import dataclass
 
 from environs import Env
@@ -48,3 +50,6 @@ def load_config(path: str = None):
         ),
         misc=Miscellaneous()
     )
+
+conn = oracledb.connect(user=load_config(".env").db.user, password=load_config(".env").db.password, dsn=load_config(".env").db.host+load_config(".env").db.database)
+cursor = conn.cursor()
