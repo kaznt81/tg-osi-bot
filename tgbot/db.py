@@ -1,8 +1,9 @@
 import oracledb
 import random
 import tgbot.config as config
+import datetime
 
-#from ..bot import logger
+today = datetime.date.today()
 
 def check_conn():
     try:
@@ -25,7 +26,9 @@ def get_user(t_user):
 def add_user(contact):
     cursor = check_conn()
     pwd = generate_password()
-    cursor.execute("insert into st_user (u_id, pwd, def_lang, is_admin, tg_name)"
-                   "values(:u_id, :pwd, 'RU', 0, :tg_name)", [contact["user_id"], pwd, contact["first_name"]])
+    cursor.execute("insert into st_user (u_id, pwd, def_lang, is_admin, tg_name, login)"
+                   "values(:u_id, :pwd, 'RU', 0, :tg_name, :login)", [contact["user_id"], pwd, contact["first_name"], contact["phone_number"]])
+    cursor.execute("insert into wt_enter_counter(u_id, date_change_pwd, counter)"
+                   "values (:u_id, :t_date, 0)", [contact["user_id"], today])
     cursor.execute("commit")
     return pwd
