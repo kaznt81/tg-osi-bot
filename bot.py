@@ -42,12 +42,12 @@ async def main():
     register_all_handlers(dp)
 
     # start
-    try:
-        await dp.start_polling()
-    finally:
-        await dp.storage.close()
-        await dp.storage.wait_closed()
-        await bot.session.close()
+   # try:
+    await dp.start_polling()
+    #finally:
+     #   await dp.storage.close()
+      #  await dp.storage.wait_closed()
+       # await bot.session.close()
 
 
 if __name__ == '__main__':
